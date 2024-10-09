@@ -1,0 +1,17 @@
+{
+    "name": "d2",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "concurrently \"npm run dev --prefix Backend\" \"npm run start --prefix Frontend\"",
+        "dev": "npm run dev --prefix Backend",
+        "client": "npm run start --prefix Frontend"
+    },
+    "devDependencies": {
+        "concurrently": "^6.5.1",
+        "nodemon": "^3.1.7"
+    },
+    "dependencies": {
+        "vite": "^5.4.8"
+    }
+}
