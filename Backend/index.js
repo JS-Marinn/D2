@@ -10,10 +10,12 @@ import productRoutes from './routes/productRoutes.js';  // Importar las rutas de
 // Importar la función para registrar administradores predefinidos
 import { registrarAdminsPredefinidos } from './controllers/usuarioController.js';
 
+// Cargar las variables de entorno
+dotenv.config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
-dotenv.config();
 conectarDB();
 
 // Registrar administradores predefinidos al iniciar el servidor

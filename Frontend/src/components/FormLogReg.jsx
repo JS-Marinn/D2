@@ -1,19 +1,22 @@
-import React, { useState, useRef } from 'react';
-import axios from 'axios'; // Importar axios
+import React, { useState, useRef, useContext } from 'react';
+import axios from 'axios';
 import Logo from "../assets/img/Logo.jpeg";
 import google from "../assets/img/google.png";
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-// Envolver Button en un componente que use ref directamente
 const CustomButton = React.forwardRef((props, ref) => (
   <button ref={ref} {...props} className="custom-button">{props.children}</button>
 ));
 
-// Envolver Form en un componente que use ref directamente
 const CustomForm = React.forwardRef((props, ref) => (
   <form ref={ref} {...props} className="custom-form">{props.children}</form>
 ));
 
 const LoginForm = React.forwardRef((props, ref) => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -21,9 +24,10 @@ const LoginForm = React.forwardRef((props, ref) => {
 
     try {
       const response = await axios.post('http://localhost:4000/api/usuarios/login', { email, password });
-      console.log(response.data);
+      login(response.data.token, response.data.role, response.data.nombre);
+      navigate('/home'); // Redirigir a home
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data.msg);
     }
   };
 
@@ -31,10 +35,10 @@ const LoginForm = React.forwardRef((props, ref) => {
     <CustomForm ref={ref} onSubmit={handleSubmit}>
       <div className="login-segment">
         <div className="login-input">
-          <input type="email" placeholder="E-mail" id='email' autoComplete="current-email"/>
+          <input type="email" placeholder="E-mail" id='email' autoComplete="current-email" required />
         </div>
         <div className="login-input">
-          <input type="password" placeholder="Contraseña" id='password' autoComplete="current-password" />
+          <input type="password" placeholder="Contraseña" id='password' autoComplete="current-password" required />
         </div>
         <CustomButton>
           Iniciar Sesión
@@ -63,16 +67,16 @@ const RegisterForm = React.forwardRef((props, ref) => {
     <CustomForm ref={ref} onSubmit={handleSubmit}>
       <div className="register-segment">
         <div className="register-input">
-          <input type="email" placeholder="E-mail" id='emailRegister'/>
+          <input type="email" placeholder="E-mail" id='emailRegister' required />
         </div>
         <div className="register-input">
-          <input type="text" placeholder="Nombre Completo" id='nombre' autoComplete="Full-name" />
+          <input type="text" placeholder="Nombre Completo" id='nombre' autoComplete="Full-name" required />
         </div>
         <div className="register-input">
-          <input type="password" placeholder="Contraseña" id='password' autoComplete="new-password"/>
+          <input type="password" placeholder="Contraseña" id='password' autoComplete="new-password" required />
         </div>
         <div className="register-input">
-          <input type="password" placeholder="Confirmar Contraseña" autoComplete="Confirmed-password" />
+          <input type="password" placeholder="Confirmar Contraseña" autoComplete="Confirmed-password" required />
         </div>
         <CustomButton>
           Registrarse
@@ -115,11 +119,11 @@ const FormLogReg = () => {
           <div className="register-form">
             <div className="register-header">
               <img src={Logo} alt="Logo" />
-              <span className="span-register-header">Empecemos</span>
+              <span className='span-register-header'>Crea tu cuenta</span>
             </div>
             <RegisterForm ref={registerFormRef} />
             <div className="message">
-              ¿Tienes cuenta? <a href='#' onClick={handleToggleForm}>Inicia Sesión</a>
+              ¿Ya tienes cuenta? <a href='#' onClick={handleToggleForm}>Inicia Sesión</a>
             </div>
           </div>
         )}
@@ -128,12 +132,4 @@ const FormLogReg = () => {
   );
 };
 
-const FormLogRegWrapper = () => {
-  return (
-    <React.Fragment>
-      <FormLogReg />
-    </React.Fragment>
-  );
-};
-
-export default FormLogRegWrapper;
+export default FormLogReg;

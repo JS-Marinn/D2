@@ -1,4 +1,5 @@
 import Usuario from '../models/Usuario.js';
+import jwt from 'jsonwebtoken'; // Importar el paquete jwt
 
 // Predefinir los administradores quemados en el código
 const adminsPredefinidos = [
@@ -64,19 +65,15 @@ const autenticar = async (req, res) => {
   if (await usuario.comprobarPassword(password)) {
     console.log("Inicio de sesión exitoso"); // Mensaje por consola al iniciar sesión exitosamente
 
-    // Verificar el rol del usuario
-    if (usuario.role === "admin") {
-      // Si es admin, mostrar una alerta con el nombre del usuario y el rol
-      return res.json({
-        msg: `Administrador ${usuario.nombre} ha iniciado sesión`,
-      });
-    } else {
-      // Si es un usuario común, solo dejar un mensaje en la consola
-      console.log(`Usuario ${usuario.nombre} ha iniciado sesión`);
-      return res.json({
-        msg: "Autenticación exitosa",
-      });
-    }
+    // Crear un token con el id del usuario y su rol
+    const token = jwt.sign({ id: usuario._id, role: usuario.role, nombre: usuario.nombre }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    return res.json({
+      msg: `Bienvenido ${usuario.nombre}`,
+      token,
+      role: usuario.role, // Devolver el rol del usuario
+      nombre: usuario.nombre, // Devolver el nombre del usuario
+    });
   } else {
     return res.status(403).json({ msg: "Contraseña incorrecta" });
   }
