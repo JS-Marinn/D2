@@ -11,6 +11,7 @@ import Tek from './Tek';
 import Legal from './Legal';
 import About from './About';
 import Login from './Login';
+import Proveedores from './Proveedores'; // Importar el nuevo componente
 
 const pageVariants = {
   initial: {
@@ -48,7 +49,7 @@ function App() {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500); // Ajusta la duración según sea necesario
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [location]);
@@ -66,6 +67,7 @@ function App() {
           <Route path="/legal" element={<AnimatedRoute element={<Legal />} />} />
           <Route path="/about" element={<AnimatedRoute element={<About />} />} />
           <Route path="/login" element={<AnimatedRoute element={<Login />} />} />
+          <Route path="/proveedores" element={<AnimatedRoute element={<Proveedores />} />} /> {/* Nueva ruta */}
         </Routes>
       </AnimatePresence>
     </>
