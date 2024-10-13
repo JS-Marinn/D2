@@ -12,6 +12,7 @@ import Legal from './Legal';
 import About from './About';
 import Login from './Login';
 import Proveedores from './Proveedores'; // Importar el nuevo componente
+import ProtectedRoute from './routes/ProtectedRoute'; // Importar el componente ProtectedRoute
 
 const pageVariants = {
   initial: {
@@ -67,7 +68,16 @@ function App() {
           <Route path="/legal" element={<AnimatedRoute element={<Legal />} />} />
           <Route path="/about" element={<AnimatedRoute element={<About />} />} />
           <Route path="/login" element={<AnimatedRoute element={<Login />} />} />
-          <Route path="/proveedores" element={<AnimatedRoute element={<Proveedores />} />} /> {/* Nueva ruta */}
+          
+          {/* Ruta protegida para Proveedores */}
+          <Route 
+            path="/proveedores" 
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AnimatedRoute element={<Proveedores />} />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </AnimatePresence>
     </>
