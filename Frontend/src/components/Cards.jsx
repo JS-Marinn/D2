@@ -1,22 +1,21 @@
 import React from 'react';
-import productoDestacado1 from "../assets/img/productoDestacado 1.jpg";
-import productoDestacado2 from "../assets/img/productoDestacado2.jpg";
-import productoDestacado3 from "../assets/img/productoDestacado3.jpg";
-
+import productoDestacado1 from "../assets/img/productoDestacado1.jpg"; // Asegúrate de que la ruta sea correcta
+import productoDestacado2 from "../assets/img/productoDestacado2.jpg"; // Asegúrate de que la ruta sea correcta
+import productoDestacado3 from "../assets/img/productoDestacado3.jpg"; // Asegúrate de que la ruta sea correcta
 
 const Cards = () => {
     return (
         <section className="ContainerCards">
             <div className="headerCards">
                 <h5 className="titularCards">¡Ofertas por tiempo limitado!</h5>
-                <p className="titular-description">No esperes mas y ahorra hoy mismo</p>
+                <p className="titular-description">No esperes más y ahorra hoy mismo</p>
             </div>
 
             <div className="cardsContainer">
 
                 <div className="ui card">
                     <div className="image">
-                        <img src={productoDestacado1} />
+                        <img src={productoDestacado1} alt="Xiaomi Redmi Note 11" />
                     </div>
                     <div className="content">
                         <a className="header">Xiaomi Redmi Note 11</a>
@@ -32,7 +31,7 @@ const Cards = () => {
 
                 <div className="ui card">
                     <div className="image">
-                        <img src={productoDestacado2} />
+                        <img src={productoDestacado2} alt="Combo Gamer" />
                     </div>
                     <div className="content">
                         <a className="header">Combo Gamer</a>
@@ -48,7 +47,7 @@ const Cards = () => {
 
                 <div className="ui card">
                     <div className="image">
-                        <img src={productoDestacado3} />
+                        <img src={productoDestacado3} alt="Pizza Congelada" />
                     </div>
                     <div className="content">
                         <a className="header">Pizza Congelada</a>
@@ -63,8 +62,7 @@ const Cards = () => {
                 </div>
             </div>
         </section>
-
-    )
+    );
 }
 
-export default Cards
+export default Cards;

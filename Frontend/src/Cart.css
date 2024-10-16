@@ -1,0 +1,45 @@
+/* Contenedor principal del carrito */
+.cart-container-modern {
+    margin-top: 50px;
+  }
+  
+  /* Mensaje del carrito vacío */
+  .empty-cart-message {
+    text-align: center;
+    padding: 400px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Estilo para los items del carrito */
+  .cart-item-modern {
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Precio del producto */
+  .item-price-modern {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 10px;
+  }
+  
+  /* Resumen de la compra */
+  .order-summary-modern {
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    position: sticky;
+    top: 50px;
+  }
+  
+  /* Detalles del resumen */
+  .order-summary-details {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+  }
+  
+  
