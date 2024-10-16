@@ -5,45 +5,44 @@ import CardsProducts from './components/CardsProducts';
 import './Index.css';
 
 // Banner
-import bannerMarket from './assets/img/market/bannerMarket.webp'
-
+import bannerMarket from './assets/img/market/bannerMarket.webp';
 const bannerView = [bannerMarket];
 
 // Imágenes
-import product01 from './assets/img/market/market01.webp'
-import product02 from './assets/img/market/market02.png'
-import product03 from './assets/img/market/market03.webp'
-import product04 from './assets/img/market/market04.webp'
-import product05 from './assets/img/market/market05.webp'
-import product06 from './assets/img/market/market06.webp'
-import product07 from './assets/img/market/marketo7.webp'
-import product08 from './assets/img/market/market08.webp'
-import product09 from './assets/img/market/market09.webp'
-import product10 from './assets/img/market/market10.webp'
-import product11 from './assets/img/market/market11.webp'
-import product12 from './assets/img/market/market12.webp'
-import product13 from './assets/img/market/market13.webp'
-import product14 from './assets/img/market/market14.webp'
-import product15 from './assets/img/market/market15.webp'
-import product16 from './assets/img/market/market16.webp'
-import product17 from './assets/img/market/market17.png'
-import product18 from './assets/img/market/market18.png'
-import product19 from './assets/img/market/market19.webp'
-import product20 from './assets/img/market/market20.png'
+import product01 from './assets/img/market/market01.webp';
+import product02 from './assets/img/market/market02.png';
+import product03 from './assets/img/market/market03.webp';
+import product04 from './assets/img/market/market04.webp';
+import product05 from './assets/img/market/market05.webp';
+import product06 from './assets/img/market/market06.webp';
+import product07 from './assets/img/market/marketo7.webp';
+import product08 from './assets/img/market/market08.webp';
+import product09 from './assets/img/market/market09.webp';
+import product10 from './assets/img/market/market10.webp';
+import product11 from './assets/img/market/market11.webp';
+import product12 from './assets/img/market/market12.webp';
+import product13 from './assets/img/market/market13.webp';
+import product14 from './assets/img/market/market14.webp';
+import product15 from './assets/img/market/market15.webp';
+import product16 from './assets/img/market/market16.webp';
+import product17 from './assets/img/market/market17.png';
+import product18 from './assets/img/market/market18.png';
+import product19 from './assets/img/market/market19.webp';
+import product20 from './assets/img/market/market20.png';
 
 // Titulares
 const titularCard = [
-  "Productos Lacteos",
-  "Carnes Frias",
+  "Productos Lácteos",
+  "Carnes Frías",
   "Productos Grano",
-  "Frutas Y Verduras",
+  "Frutas y Verduras",
   "Licores"
 ];
 // Headers
 const headerCard = [
-  "Leche Uht Alquería Deslactosada 1,1 Lt X6 Unds",
+  "Leche UHT Alquería Deslactosada 1,1 Lt X6 Unds",
   "Queso Finesse Mozarella 450 G X30 Tajadas",
-  "Leche Uht Colanta Entera 1,1 Lt X6 Unds",
+  "Leche UHT Colanta Entera 1,1 Lt X6 Unds",
   "Avena Alpina Original 250 G X4 Unds",
   "Cerdo Lomo Importado",
   "Pez Mojarra Roja X Kg",
@@ -51,25 +50,56 @@ const headerCard = [
   "Tocineta De Cerdo kg",
   "Arroz Diana 3 Kg",
   "Frijoles Zenú Antioqueño",
-  "Garbanzos La Coruña ",
+  "Garbanzos La Coruña",
   "Arvejas Con Zanahoria 300G",
   "Manzana Roja Chilena A Granel",
   "Tomate Río Grande/Ciruelo",
   "Mango Tommy",
   "Cebolla Cabezona Roja",
   "Whisky Old Parr 12 Años 750 Ml",
-  "Whisky Buchanan's Deluxe 12 Años 750 Ml ",
+  "Whisky Buchanan's Deluxe 12 Años 750 Ml",
   "Whisky Scottish Fox Blended 700 Ml",
-  "Cerveza Club Colombia Dorada  330 ML "
+  "Cerveza Club Colombia Dorada 330 ML"
 ];
 
-// Descripciones
+// Descripciones y precios
 const descriptionCard = [
-  "$ 32.500", "$ 23.890", "$ 30.200", "$  9.640", "$ 20.380",
-  "$  16.500", "$ 11.500", "$ 20.280", "$ 12.350", "$ 6.500",
-  "$ 7.600", "$  8.550", "$ 8.550", "$  3.990", "$ 4.750",
-  "$  3.890", "$ 142.000 ", "$164.000 ", "$ 37.550 ", "$ 18.900"
+  "$ 32.500", "$ 23.890", "$ 30.200", "$ 9.640", "$ 20.380",
+  "$ 16.500", "$ 11.500", "$ 20.280", "$ 12.350", "$ 6.500",
+  "$ 7.600", "$ 8.550", "$ 8.550", "$ 3.990", "$ 4.750",
+  "$ 3.890", "$ 142.000", "$ 164.000", "$ 37.550", "$ 18.900"
 ];
+
+// Función para extraer los precios y convertirlos a número
+const extractPrices = (description) => {
+  return description.map(desc => {
+    // Eliminar cualquier símbolo que no sea dígito, punto o coma
+    const cleaned = desc.replace(/[^\d,.]/g, '');
+
+    // Detectar si el número usa coma como separador decimal
+    const hasCommaAsDecimal = cleaned.includes(',') && cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.');
+
+    // Si está usando coma como separador decimal, reemplazamos la coma por punto
+    let normalized = cleaned;
+    if (hasCommaAsDecimal) {
+      // Reemplazamos la coma por punto para decimales
+      normalized = cleaned.replace(',', '.');
+    } else {
+      // Eliminamos las comas si son separadores de miles
+      normalized = cleaned.replace(/,/g, '');
+    }
+
+    // Eliminamos puntos que sean separadores de miles
+    normalized = normalized.replace(/\.(?=\d{3})/g, '');
+
+    // Convertir a número flotante
+    const finalPrice = parseFloat(normalized);
+
+    return finalPrice;
+  });
+};
+
+
 
 function Market() {
   const productImages = [
@@ -79,17 +109,22 @@ function Market() {
     product16, product17, product18, product19, product20
   ];
 
+  const prices = extractPrices(descriptionCard);
+
   return (
     <>
       <NavBar />
       <Banner banner={bannerView} />
-      <CardsProducts images={productImages} titular={titularCard} header={headerCard} description={descriptionCard} />
+      <CardsProducts
+        images={productImages}
+        titular={titularCard}
+        header={headerCard}
+        description={descriptionCard}
+        prices={prices} // Pasar precios extraídos como prop
+      />
       <Footer />
     </>
   );
 }
 
 export default Market;
-
-
-

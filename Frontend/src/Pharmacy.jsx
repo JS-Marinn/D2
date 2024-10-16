@@ -5,8 +5,7 @@ import CardsProducts from './components/CardsProducts';
 import './Index.css';
 
 // Banner
-import bannerPharmacy from "./assets/img/drugs/bannerPharmacy.webp"
-
+import bannerPharmacy from './assets/img/drugs/bannerPharmacy.webp';
 const bannerView = [bannerPharmacy];
 
 // Imágenes
@@ -34,8 +33,8 @@ import product20 from './assets/img/drugs/drugs20.webp';
 // Titulares
 const titularCard = [
   "Para tu cuidado personal",
-  "Vitaminas Y Suplementos",
-  "Gripa Y Tos",
+  "Vitaminas y Suplementos",
+  "Gripa y Tos",
   "Sistema Respiratorio",
   "Salud Sexual"
 ];
@@ -43,19 +42,19 @@ const titularCard = [
 const headerCard = [
   "Crema Hidratante Cetaphil Piel Sensible 453 G",
   "Protector Solar La Roche Posay Anthelios Gel-Crema",
-  "Effaclar La Roche Posay Serúm Ultra Concentrado 30 Ml",
+  "Effaclar La Roche Posay Sérum Ultra Concentrado 30 Ml",
   "Condones Durex Máximo Placer X3 Unds",
   "Z Best Coboral Vainilla En Polvo 300 G",
   "Batidos Bénet Nutricionales Frutos Rojos 200 G",
   "Suplemento Dietario Farma D Mag X30 Tabletas",
-  "L- Carnitina Healthy Sports 1000 Mg X60 Tabletas",
+  "L-Carnitina Healthy Sports 1000 Mg X60 Tabletas",
   "Noxpirin Plus Síntomas De Gripa X12 Cápsulas",
   "Vick Vaporub Ungüento 100 G",
   "Noraver Garganta Cereza X12 Tabletas",
   "Jarabe Abrilar Hereda Helix 200 ML",
   "Marimer Hipertónico Gilbert Baby Spray 100 ML",
   "Loratadina 10 Mg MK X10 Tabletas",
-  "Benzirin Verde Tecnoquimicas Spray 120 ML",
+  "Benzirin Verde Tecnoquímicas Spray 120 ML",
   "Jarabe Clorfeniramina 2 Mg Ecar 120 ML",
   "Gel K-Y Lubricante Íntimo 50 G",
   "Condones Durex Extra Seguro X3 Unds",
@@ -63,14 +62,43 @@ const headerCard = [
   "Prueba De Embarazo Clearblue X1 Und"
 ];
 
-
-// Descripciones
+// Descripciones y precios
 const descriptionCard = [
   "$ 120.000", "$ 90.000", "$ 135.000", "$ 13.000", "$ 35.450",
   "$ 31.500", "$ 28.500", "$ 57.850", "$ 9.800", "$ 31.500",
   "$ 15.850", "$ 45.850", "$ 62.500", "$ 3.800", "$ 46.200",
   "$ 4.590", "$ 27.650", "$ 8.500", "$ 15.200", "$ 17.650"
 ];
+
+// Función para extraer los precios y convertirlos a número
+const extractPrices = (description) => {
+  return description.map(desc => {
+    // Eliminar cualquier símbolo que no sea dígito, punto o coma
+    const cleaned = desc.replace(/[^\d,.]/g, '');
+
+    // Detectar si el número usa coma como separador decimal
+    const hasCommaAsDecimal = cleaned.includes(',') && cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.');
+
+    // Si está usando coma como separador decimal, reemplazamos la coma por punto
+    let normalized = cleaned;
+    if (hasCommaAsDecimal) {
+      // Reemplazamos la coma por punto para decimales
+      normalized = cleaned.replace(',', '.');
+    } else {
+      // Eliminamos las comas si son separadores de miles
+      normalized = cleaned.replace(/,/g, '');
+    }
+
+    // Eliminamos puntos que sean separadores de miles
+    normalized = normalized.replace(/\.(?=\d{3})/g, '');
+
+    // Convertir a número flotante
+    const finalPrice = parseFloat(normalized);
+
+    return finalPrice;
+  });
+};
+
 
 function Pharmacy() {
   const productImages = [
@@ -80,11 +108,19 @@ function Pharmacy() {
     product16, product17, product18, product19, product20
   ];
 
+  const prices = extractPrices(descriptionCard);
+
   return (
     <>
       <NavBar />
       <Banner banner={bannerView} />
-      <CardsProducts images={productImages} titular={titularCard} header={headerCard} description={descriptionCard} />
+      <CardsProducts
+        images={productImages}
+        titular={titularCard}
+        header={headerCard}
+        description={descriptionCard}
+        prices={prices} // Pasar precios extraídos como prop
+      />
       <Footer />
     </>
   );

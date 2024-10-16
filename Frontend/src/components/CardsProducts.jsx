@@ -1,26 +1,23 @@
 import React, { useContext } from 'react';
-import { CartContext } from '../CartContext'; 
+import { CartContext } from '../CartContext';
 
-
-const CardsProducts = ({ images, titular, header, description }) => {
-  const { addToCart } = useContext(CartContext); // Obtener addToCart desde el contexto
+const CardsProducts = ({ images, titular, header, description, prices }) => {
+  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = (index) => {
-    // Crear el objeto del producto que se va a agregar al carrito
     const product = {
-      id: index, // Asignar un identificador único para el producto
-      name: header[index],
-      description: description[index],
-      image: images[index],
-      price: Math.floor(Math.random() * 100) + 1, // Generar un precio aleatorio para el producto
+      id: index,
+      name: header[index],       // Nombre del producto
+      description: header[index],// Descripción o nombre (puedes ajustarlo según lo que prefieras mostrar)
+      image: images[index],      // Imagen del producto
+      price: prices[index]       // Asegurarse de pasar el precio NUMÉRICO correcto aquí
     };
 
-    addToCart(product); // Usar addToCart del contexto
+    addToCart(product);
   };
 
   return (
     <div>
-      {/* Generar secciones dinámicamente según los títulos */}
       {titular.map((title, titularIndex) => (
         <div key={titularIndex}>
           <div className="headerCards">
@@ -28,11 +25,10 @@ const CardsProducts = ({ images, titular, header, description }) => {
           </div>
 
           <section className="ContainerCardsProducts">
-            {/* Mostrar los productos correspondientes a cada título */}
             {header
-              .slice(titularIndex * 4, titularIndex * 4 + 4) // Mostrar 4 productos por sección
+              .slice(titularIndex * 4, titularIndex * 4 + 4)
               .map((item, index) => {
-                const realIndex = titularIndex * 4 + index; // Índice real del producto
+                const realIndex = titularIndex * 4 + index;
                 return (
                   <div className="cardsContainerProducts" key={realIndex}>
                     <div className="ui card">
@@ -46,10 +42,15 @@ const CardsProducts = ({ images, titular, header, description }) => {
                       <div className="content">
                         <a className="header">{header[realIndex]}</a>
                         <div className="description">
-                          {description[realIndex]}
+                          {/* Elimina el precio en la descripción si ya lo muestras abajo */}
+                          {header[realIndex]}
                         </div>
                       </div>
                       <div className="extra content">
+                        {/* Mostrar el precio correcto usando el array 'prices' */}
+                        <p className="item-price">
+                          Precio: ${prices[realIndex].toLocaleString()}
+                        </p>
                         <button
                           className="btn-comprar"
                           onClick={() => handleAddToCart(realIndex)}
