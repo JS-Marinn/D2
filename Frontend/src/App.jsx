@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import LoadingScreen from './LoadingScreen';
 import './Index.css';
@@ -11,8 +11,11 @@ import Tek from './Tek';
 import Legal from './Legal';
 import About from './About';
 import Login from './Login';
-import Proveedores from './Proveedores'; // Importar el nuevo componente
-import ProtectedRoute from './routes/ProtectedRoute'; // Importar el componente ProtectedRoute
+import Proveedores from './Proveedores';
+import ProtectedRoute from './routes/ProtectedRoute';
+import Cart from './Cart';
+import { CartProvider, CartContext } from './CartContext'; // Importamos el contexto y el CartProvider
+
 
 const pageVariants = {
   initial: {
@@ -42,6 +45,18 @@ const AnimatedRoute = ({ element }) => (
   </motion.div>
 );
 
+function FloatingCart() {
+  const { cartItems } = useContext(CartContext); // Acceder a los items del carrito
+
+  return (
+    <div className="floating-cart">
+      <Link to="/cart">
+        🛒 Carrito ({cartItems.length}) {/* Mostramos el contador de productos */}
+      </Link>
+    </div>
+  );
+}
+
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -56,7 +71,7 @@ function App() {
   }, [location]);
 
   return (
-    <>
+    <CartProvider>
       {loading && <LoadingScreen />}
       <AnimatePresence mode="wait" onExitComplete={() => setLoading(false)}>
         <Routes location={location} key={location.pathname}>
@@ -68,8 +83,7 @@ function App() {
           <Route path="/legal" element={<AnimatedRoute element={<Legal />} />} />
           <Route path="/about" element={<AnimatedRoute element={<About />} />} />
           <Route path="/login" element={<AnimatedRoute element={<Login />} />} />
-          
-          {/* Ruta protegida para Proveedores */}
+          <Route path="/cart" element={<AnimatedRoute element={<Cart />} />} />
           <Route 
             path="/proveedores" 
             element={
@@ -80,7 +94,8 @@ function App() {
           />
         </Routes>
       </AnimatePresence>
-    </>
+      <FloatingCart /> {/* Mostramos el carrito flotante en todas las vistas */}
+    </CartProvider>
   );
 }
 

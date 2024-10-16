@@ -2,6 +2,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Banner from './components/Banner';
 import CardsProducts from './components/CardsProducts';
+import './Index.css';
 
 // Banner
 import bannerHome from './assets/img/home/bannerHome.webp'

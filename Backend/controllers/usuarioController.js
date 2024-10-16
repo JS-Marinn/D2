@@ -6,7 +6,7 @@ const adminsPredefinidos = [
   {
     nombre: "Nicolas Urazan Padilla",
     email: "nicolasurazanp@gmail.com",
-    password: "nicolasurazan2016",
+    password: "nicolasurazan2018",
     role: "admin"
   },
   {

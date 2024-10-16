@@ -91,7 +91,7 @@ const Proveedores = () => {
   };
 
   return (
-    <div>
+    <div className= "proveedores">
       <h2>Lista de Proveedores</h2>
       <Button color="green" onClick={() => openModal()}>Añadir Proveedor</Button>
       {error && <Message error>{error}</Message>}
