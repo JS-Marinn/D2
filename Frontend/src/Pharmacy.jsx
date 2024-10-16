@@ -62,7 +62,7 @@ const headerCard = [
   "Prueba De Embarazo Clearblue X1 Und"
 ];
 
-// Descripciones y precios
+// Precios
 const descriptionCard = [
   "$ 120.000", "$ 90.000", "$ 135.000", "$ 13.000", "$ 35.450",
   "$ 31.500", "$ 28.500", "$ 57.850", "$ 9.800", "$ 31.500",
@@ -73,32 +73,18 @@ const descriptionCard = [
 // Función para extraer los precios y convertirlos a número
 const extractPrices = (description) => {
   return description.map(desc => {
-    // Eliminar cualquier símbolo que no sea dígito, punto o coma
     const cleaned = desc.replace(/[^\d,.]/g, '');
-
-    // Detectar si el número usa coma como separador decimal
     const hasCommaAsDecimal = cleaned.includes(',') && cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.');
-
-    // Si está usando coma como separador decimal, reemplazamos la coma por punto
     let normalized = cleaned;
     if (hasCommaAsDecimal) {
-      // Reemplazamos la coma por punto para decimales
       normalized = cleaned.replace(',', '.');
     } else {
-      // Eliminamos las comas si son separadores de miles
       normalized = cleaned.replace(/,/g, '');
     }
-
-    // Eliminamos puntos que sean separadores de miles
     normalized = normalized.replace(/\.(?=\d{3})/g, '');
-
-    // Convertir a número flotante
-    const finalPrice = parseFloat(normalized);
-
-    return finalPrice;
+    return parseFloat(normalized);
   });
 };
-
 
 function Pharmacy() {
   const productImages = [
@@ -118,8 +104,7 @@ function Pharmacy() {
         images={productImages}
         titular={titularCard}
         header={headerCard}
-        description={descriptionCard}
-        prices={prices} // Pasar precios extraídos como prop
+        prices={prices}
       />
       <Footer />
     </>

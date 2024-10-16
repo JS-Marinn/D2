@@ -62,8 +62,8 @@ const headerCard = [
   "Cerveza Club Colombia Dorada 330 ML"
 ];
 
-// Descripciones y precios
-const descriptionCard = [
+// Precios
+const priceCard = [
   "$ 32.500", "$ 23.890", "$ 30.200", "$ 9.640", "$ 20.380",
   "$ 16.500", "$ 11.500", "$ 20.280", "$ 12.350", "$ 6.500",
   "$ 7.600", "$ 8.550", "$ 8.550", "$ 3.990", "$ 4.750",
@@ -71,35 +71,20 @@ const descriptionCard = [
 ];
 
 // Función para extraer los precios y convertirlos a número
-const extractPrices = (description) => {
-  return description.map(desc => {
-    // Eliminar cualquier símbolo que no sea dígito, punto o coma
-    const cleaned = desc.replace(/[^\d,.]/g, '');
-
-    // Detectar si el número usa coma como separador decimal
+const extractPrices = (prices) => {
+  return prices.map(price => {
+    const cleaned = price.replace(/[^\d,.]/g, '');
     const hasCommaAsDecimal = cleaned.includes(',') && cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.');
-
-    // Si está usando coma como separador decimal, reemplazamos la coma por punto
     let normalized = cleaned;
     if (hasCommaAsDecimal) {
-      // Reemplazamos la coma por punto para decimales
       normalized = cleaned.replace(',', '.');
     } else {
-      // Eliminamos las comas si son separadores de miles
       normalized = cleaned.replace(/,/g, '');
     }
-
-    // Eliminamos puntos que sean separadores de miles
     normalized = normalized.replace(/\.(?=\d{3})/g, '');
-
-    // Convertir a número flotante
-    const finalPrice = parseFloat(normalized);
-
-    return finalPrice;
+    return parseFloat(normalized);
   });
 };
-
-
 
 function Market() {
   const productImages = [
@@ -109,7 +94,7 @@ function Market() {
     product16, product17, product18, product19, product20
   ];
 
-  const prices = extractPrices(descriptionCard);
+  const prices = extractPrices(priceCard);
 
   return (
     <>
@@ -119,7 +104,6 @@ function Market() {
         images={productImages}
         titular={titularCard}
         header={headerCard}
-        description={descriptionCard}
         prices={prices} // Pasar precios extraídos como prop
       />
       <Footer />

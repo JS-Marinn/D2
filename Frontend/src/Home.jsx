@@ -38,6 +38,7 @@ const titularCard = [
   "Zona De Comidas",
   "Utencilios Para Cocina"
 ];
+
 // Headers
 const headerCard = [
   "Combo Colchón Fantasía Galaxy 140x190",
@@ -62,7 +63,7 @@ const headerCard = [
   "Horno De Microondas Oster "
 ];
 
-// Descripciones y precios
+// Precios
 const descriptionCard = [
   "$ 975.000", "$ 970.900", "$ 575.900", "$ 750.000", "$ 489.900",
   "$ 815.900", "$ 950.000", "$ 445.800", "$ 49.800", "$ 51.500",
@@ -73,32 +74,18 @@ const descriptionCard = [
 // Función para extraer los precios y convertirlos a número
 const extractPrices = (description) => {
   return description.map(desc => {
-    // Eliminar cualquier símbolo que no sea dígito, punto o coma
     const cleaned = desc.replace(/[^\d,.]/g, '');
-
-    // Detectar si el número usa coma como separador decimal
     const hasCommaAsDecimal = cleaned.includes(',') && cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.');
-
-    // Si está usando coma como separador decimal, reemplazamos la coma por punto
     let normalized = cleaned;
     if (hasCommaAsDecimal) {
-      // Reemplazamos la coma por punto para decimales
       normalized = cleaned.replace(',', '.');
     } else {
-      // Eliminamos las comas si son separadores de miles
       normalized = cleaned.replace(/,/g, '');
     }
-
-    // Eliminamos puntos que sean separadores de miles
     normalized = normalized.replace(/\.(?=\d{3})/g, '');
-
-    // Convertir a número flotante
-    const finalPrice = parseFloat(normalized);
-
-    return finalPrice;
+    return parseFloat(normalized);
   });
 };
-
 
 function Home() {
   const productImages = [
@@ -118,7 +105,6 @@ function Home() {
         images={productImages}
         titular={titularCard}
         header={headerCard}
-        description={descriptionCard}
         prices={prices} // Pasar precios extraídos como prop
       />
       <Footer />

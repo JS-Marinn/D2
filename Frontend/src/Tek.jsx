@@ -38,6 +38,7 @@ const titularCard = [
   "Tablets",
   "Relojes Inteligentes"
 ];
+
 // Headers
 const headerCard = [
   "Celular iPhone 15 128GB ESIM - Azul",
@@ -62,39 +63,27 @@ const headerCard = [
   "Reloj Inteligente Smartwatch Amazfit GTS"
 ];
 
-// Descripciones y precios
+// Precios
 const descriptionCard = [
   "$ 5.739.900", "$ 6.379.900", "$ 1.299.900", "$ 2.599.900", "$ 6.599.542",
   "$ 6.699.542", "$ 7.499.900", "$ 6.839.880", "$ 10.469.700", "$ 2.199.900",
   "$ 9.799.900", "$ 2.505.700", "$ 2.730.000", "$ 1.299.000", "$ 1.399.700",
   "$ 2.015.900", "$ 2.299.700", "$ 350.000", "$ 607.497", "$ 1.129.025"
 ];
+
 // Función para extraer los precios y convertirlos a número
 const extractPrices = (description) => {
   return description.map(desc => {
-    // Eliminar cualquier símbolo que no sea dígito, punto o coma
     const cleaned = desc.replace(/[^\d,.]/g, '');
-
-    // Detectar si el número usa coma como separador decimal
     const hasCommaAsDecimal = cleaned.includes(',') && cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.');
-
-    // Si está usando coma como separador decimal, reemplazamos la coma por punto
     let normalized = cleaned;
     if (hasCommaAsDecimal) {
-      // Reemplazamos la coma por punto para decimales
       normalized = cleaned.replace(',', '.');
     } else {
-      // Eliminamos las comas si son separadores de miles
       normalized = cleaned.replace(/,/g, '');
     }
-
-    // Eliminamos puntos que sean separadores de miles
     normalized = normalized.replace(/\.(?=\d{3})/g, '');
-
-    // Convertir a número flotante
-    const finalPrice = parseFloat(normalized);
-
-    return finalPrice;
+    return parseFloat(normalized);
   });
 };
 
@@ -116,8 +105,7 @@ function Tek() {
         images={productImages}
         titular={titularCard}
         header={headerCard}
-        description={descriptionCard}
-        prices={prices} // Pasar precios extraídos como prop
+        prices={prices}
       />
       <Footer />
     </>

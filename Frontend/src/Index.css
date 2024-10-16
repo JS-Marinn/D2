@@ -562,3 +562,71 @@ button {
 .checkout-btn:hover {
   background-color: #1DA1F2;
 }
+
+/* .card-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui.card {
+  height: 350px; 
+} */
+
+/* Cards Responsivas */
+.ui.card {
+  flex: 1 1 23%;  /* Ajuste flexible del ancho según el espacio disponible */
+  max-width: 300px;  /* Limita el tamaño máximo de la tarjeta */
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+
+@media screen and (max-width: 1200px) {
+  .ui.card {
+    flex-basis: 30%; /* Ajusta el ancho de las tarjetas para pantallas medianas */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ui.card {
+    flex-basis: 45%; /* Ajusta el ancho de las tarjetas para pantallas más pequeñas */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ui.card {
+    flex-basis: 100%; /* Tarjetas de ancho completo en pantallas móviles */
+  }
+}
+
+/* Truncar texto con puntos suspensivos */
+.ui.card .header {
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Agrega puntos suspensivos al final del texto si es muy largo */
+  max-width: 100%;
+}
+
+/* Tarjeta en hover */
+.ui.card:hover {
+  transform: translateY(-10px); /* Mueve la tarjeta hacia arriba al hacer hover */
+}
+
+/* Otros ajustes */
+.cardsContainerProducts {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+

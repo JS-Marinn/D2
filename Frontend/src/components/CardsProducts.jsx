@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../CartContext';
 
-const CardsProducts = ({ images, titular, header, description, prices }) => {
+const CardsProducts = ({ images, titular, header, prices }) => { // Eliminar 'description' del destructuring
   const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = (index) => {
     const product = {
       id: index,
       name: header[index],       // Nombre del producto
-      description: header[index],// Descripción o nombre (puedes ajustarlo según lo que prefieras mostrar)
       image: images[index],      // Imagen del producto
       price: prices[index]       // Asegurarse de pasar el precio NUMÉRICO correcto aquí
     };
@@ -40,12 +39,11 @@ const CardsProducts = ({ images, titular, header, description, prices }) => {
                         />
                       </div>
                       <div className="content">
-                        <a className="header">{header[realIndex]}</a>
-                        <div className="description">
-                          {/* Elimina el precio en la descripción si ya lo muestras abajo */}
+                        <a className="header" title={header[realIndex]}>
                           {header[realIndex]}
-                        </div>
+                        </a>
                       </div>
+
                       <div className="extra content">
                         {/* Mostrar el precio correcto usando el array 'prices' */}
                         <p className="item-price">
