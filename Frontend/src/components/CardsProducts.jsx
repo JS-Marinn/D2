@@ -1,18 +1,25 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../CartContext';
+import { AuthContext } from '../context/AuthContext'; // Importa el AuthContext
+import { useNavigate } from 'react-router-dom';
 
-const CardsProducts = ({ images, titular, header, prices }) => { // Eliminar 'description' del destructuring
+const CardsProducts = ({ images, titular, header, prices }) => {
   const { addToCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext); // Accede al estado del usuario
+  const navigate = useNavigate();
 
   const handleAddToCart = (index) => {
-    const product = {
-      id: index,
-      name: header[index],       // Nombre del producto
-      image: images[index],      // Imagen del producto
-      price: prices[index]       // Asegurarse de pasar el precio NUMÉRICO correcto aquí
-    };
-
-    addToCart(product);
+    if (!user) {
+      navigate('/login'); // Redirige al login si no hay usuario
+    } else {
+      const product = {
+        id: index,
+        name: header[index],
+        image: images[index],
+        price: prices[index]
+      };
+      addToCart(product);
+    }
   };
 
   return (
@@ -45,7 +52,6 @@ const CardsProducts = ({ images, titular, header, prices }) => { // Eliminar 'de
                       </div>
 
                       <div className="extra content">
-                        {/* Mostrar el precio correcto usando el array 'prices' */}
                         <p className="item-price">
                           Precio: ${prices[realIndex].toLocaleString()}
                         </p>

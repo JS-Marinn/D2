@@ -444,20 +444,31 @@ button {
 
 .floating-cart {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #f1f1f1;
+  bottom: 20px; /* Ajusta la distancia desde la parte inferior */
+  right: 20px;  /* Ajusta la distancia desde la parte derecha */
+  background-color: #f1f1f1; /* Fondo para hacer que parezca un botón */
   padding: 10px 15px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 50px; /* Hace que el fondo sea redondeado */
+  border: 2px solid black; /* Borde negro */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añade una sombra */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.floating-cart a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
+.floating-cart:hover {
+  cursor: pointer; /* Cambia el cursor a pointer cuando pases sobre él */
+  background-color: #e0e0e0; /* Cambia el fondo al hacer hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer hover */
 }
+
+.floating-cart span {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
 
 .cart-container {
   width: 90%; /* O el tamaño que prefieras */

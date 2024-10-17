@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Routes, Route, useLocation, Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import LoadingScreen from './LoadingScreen';
-import './Index.css';
 import Index from './Index';
 import Pharmacy from './Pharmacy';
 import Home from './Home';
@@ -14,8 +13,9 @@ import Login from './Login';
 import Proveedores from './Proveedores';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Cart from './Cart';
-import { CartProvider, CartContext } from './CartContext'; // Importamos el contexto y el CartProvider
-
+import { CartContext } from './CartContext'; // Importa el CartContext
+import { AuthContext } from './context/AuthContext'; // Importa el AuthContext
+import './Index.css'; // Asegúrate de tener este archivo de estilos
 
 const pageVariants = {
   initial: {
@@ -45,21 +45,12 @@ const AnimatedRoute = ({ element }) => (
   </motion.div>
 );
 
-function FloatingCart() {
-  const { cartItems } = useContext(CartContext); // Acceder a los items del carrito
-
-  return (
-    <div className="floating-cart">
-      <Link to="/cart">
-        🛒 Carrito ({cartItems.length}) {/* Mostramos el contador de productos */}
-      </Link>
-    </div>
-  );
-}
-
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
+  const { cartItems } = useContext(CartContext); // Accede a los items del carrito
+  const { user } = useContext(AuthContext); // Accede al estado del usuario
+  const navigate = useNavigate(); // Hook para redirigir
 
   useEffect(() => {
     setLoading(true);
@@ -70,8 +61,16 @@ function App() {
     return () => clearTimeout(timer);
   }, [location]);
 
+  const handleCartClick = () => {
+    if (!user) {
+      navigate('/login'); // Redirige al login si no hay usuario autenticado
+    } else {
+      navigate('/cart'); // Navega al carrito si el usuario está autenticado
+    }
+  };
+
   return (
-    <CartProvider>
+    <>
       {loading && <LoadingScreen />}
       <AnimatePresence mode="wait" onExitComplete={() => setLoading(false)}>
         <Routes location={location} key={location.pathname}>
@@ -94,8 +93,12 @@ function App() {
           />
         </Routes>
       </AnimatePresence>
-      <FloatingCart /> {/* Mostramos el carrito flotante en todas las vistas */}
-    </CartProvider>
+
+      {/* Carrito flotante con borde negro */}
+      <div className="floating-cart" onClick={handleCartClick}>
+        🛒 <span>Carrito ({cartItems.length})</span>
+      </div>
+    </>
   );
 }
 
