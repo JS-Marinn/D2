@@ -107,13 +107,13 @@
 }
 
 .ui.card {
-  flex: 1 1 30%;
-  max-width: 500px;
+  flex: 1 1 23%;
+  max-width: 369px !important;
   margin: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.3s ease; /* Agrega la transición de transformación aquí */
+  transition: transform 0.3s ease;
 }
 
 .ui.card:hover {
@@ -441,6 +441,10 @@ button {
 }
 
 /* carrito */
+
+.ten.wide.column{
+  padding: 50px !important;
+}
 
 .floating-cart {
   position: fixed;

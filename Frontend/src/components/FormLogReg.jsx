@@ -23,11 +23,19 @@ const LoginForm = React.forwardRef((props, ref) => {
     const password = e.target.password.value;
 
     try {
-      const response = await axios.post('http://localhost:4000/api/usuarios/login', { email, password });
+      const response = await axios.post('http://localhost:4000/api/usuarios/login', 
+        { email, password }, 
+        { headers: { 'Content-Type': 'application/json' } }
+      );
       login(response.data.token, response.data.role, response.data.nombre);
       navigate('/home'); // Redirigir a home
     } catch (error) {
-      console.error(error.response.data.msg);
+      console.error(error);
+      if (error.response && error.response.data && error.response.data.msg) {
+        alert(error.response.data.msg); // Mostrar mensaje de error al usuario
+      } else {
+        alert('Error en el inicio de sesión, por favor intenta nuevamente.');
+      }
     }
   };
 
@@ -56,10 +64,19 @@ const RegisterForm = React.forwardRef((props, ref) => {
     const password = e.target.password.value;
 
     try {
-      const response = await axios.post('http://localhost:4000/api/usuarios', { email, nombre, password });
+      const response = await axios.post('http://localhost:4000/api/usuarios', 
+        { email, nombre, password }, 
+        { headers: { 'Content-Type': 'application/json' } }
+      );
       console.log(response.data);
+      alert(response.data.msg); // Mostrar mensaje de éxito al usuario
     } catch (error) {
       console.error(error);
+      if (error.response && error.response.data && error.response.data.msg) {
+        alert(error.response.data.msg); // Mostrar mensaje de error al usuario
+      } else {
+        alert('Error al registrar, por favor intenta nuevamente.');
+      }
     }
   };
 
@@ -74,9 +91,6 @@ const RegisterForm = React.forwardRef((props, ref) => {
         </div>
         <div className="register-input">
           <input type="password" placeholder="Contraseña" id='password' autoComplete="new-password" required />
-        </div>
-        <div className="register-input">
-          <input type="password" placeholder="Confirmar Contraseña" autoComplete="Confirmed-password" required />
         </div>
         <CustomButton>
           Registrarse

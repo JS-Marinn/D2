@@ -31,12 +31,17 @@ const registrarAdminsPredefinidos = async () => {
 
 // Registrar un usuario con rol 'user'
 const registrar = async (req, res) => {
-  const { nombre, email, password } = req.body;  // No permitimos que el cliente especifique el rol
+  const { nombre, email, password } = req.body;
+
+  // Validación básica para campos vacíos
+  if (!nombre || !email || !password) {
+    return res.status(400).json({ msg: "Todos los campos (nombre, email, password) son obligatorios" });
+  }
+
   const existeUsuario = await Usuario.findOne({ email });
 
   if (existeUsuario) {
-    const error = new Error("Usuario ya registrado");
-    return res.status(400).json({ msg: error.message });
+    return res.status(400).json({ msg: "El usuario ya está registrado" });
   }
 
   try {
@@ -46,7 +51,7 @@ const registrar = async (req, res) => {
 
     res.json({ msg: "Usuario registrado correctamente" });
   } catch (error) {
-    console.log(error);
+    console.log("Error al registrar el usuario:", error);
     res.status(500).json({ msg: "Hubo un error al registrar el usuario" });
   }
 };
@@ -66,7 +71,11 @@ const autenticar = async (req, res) => {
     console.log("Inicio de sesión exitoso"); // Mensaje por consola al iniciar sesión exitosamente
 
     // Crear un token con el id del usuario y su rol
-    const token = jwt.sign({ id: usuario._id, role: usuario.role, nombre: usuario.nombre }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { id: usuario._id, role: usuario.role, nombre: usuario.nombre },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
     return res.json({
       msg: `Bienvenido ${usuario.nombre}`,
