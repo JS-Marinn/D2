@@ -1,8 +1,20 @@
+// pedidoController.js
 import Pedido from '../models/Pedido.js';
 
+// Registrar un pedido
 const registrarPedido = async (req, res) => {
     try {
-        const pedido = new Pedido(req.body);
+        const { usuario, nombreUsuario, correoUsuario, proveedor, productos, total } = req.body;
+
+        const pedido = new Pedido({
+            usuario,
+            nombreUsuario,
+            correoUsuario,
+            proveedor,
+            productos,
+            total
+        });
+
         const pedidoAlmacenado = await pedido.save();
         res.json(pedidoAlmacenado);
     } catch (error) {
@@ -11,6 +23,7 @@ const registrarPedido = async (req, res) => {
     }
 };
 
+// Obtener pedidos
 const obtenerPedidos = async (req, res) => {
     try {
         const pedidos = await Pedido.find().populate('usuario').populate('proveedor');
@@ -21,18 +34,18 @@ const obtenerPedidos = async (req, res) => {
     }
 };
 
+// Eliminar un pedido
 const eliminarPedido = async (req, res) => {
     try {
         const { id } = req.params;
         const pedido = await Pedido.findById(id);
 
         if (!pedido) {
-            const error = new Error("Pedido no encontrado");
-            return res.status(404).json({ msg: error.message });
+            return res.status(404).json({ msg: 'Pedido no encontrado' });
         }
 
-        await pedido.deleteOne();
-        res.json({ msg: "Pedido eliminado correctamente" });
+        await pedido.remove();
+        res.json({ msg: 'Pedido eliminado' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: 'Error al eliminar el pedido' });

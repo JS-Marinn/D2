@@ -1,7 +1,7 @@
-// middleware/auth.js
-import jwt from "jsonwebtoken";
+// auth.js
+import jwt from 'jsonwebtoken';
 
-const authMiddleware = (req, res, next) => {
+export const verificarAutenticacion = (req, res, next) => {
     const token = req.header("Authorization");
 
     if (!token) {
@@ -13,8 +13,14 @@ const authMiddleware = (req, res, next) => {
         req.user = verified; // Guarda el usuario verificado en el objeto req
         next();
     } catch (error) {
-        return res.status(401).json({ msg: "Token no válido" });
+        res.status(400).json({ msg: "Token no válido" });
     }
 };
 
-export default authMiddleware;
+export const verificarAdministrador = (req, res, next) => {
+    if (req.user && req.user.rol === 'admin') {
+        next();
+    } else {
+        res.status(403).json({ msg: "Acceso denegado: No eres administrador" });
+    }
+};

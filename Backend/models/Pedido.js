@@ -1,9 +1,18 @@
+// models/Pedido.js
 import mongoose from 'mongoose';
 
 const pedidoSchema = mongoose.Schema({
     usuario: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario',
+        required: true
+    },
+    nombreUsuario: {
+        type: String,
+        required: true
+    },
+    correoUsuario: {
+        type: String,
         required: true
     },
     proveedor: {

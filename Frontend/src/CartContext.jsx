@@ -1,3 +1,4 @@
+// CartContext.jsx
 import React, { createContext, useState } from 'react';
 
 // Crear el contexto
@@ -13,11 +14,11 @@ export const CartProvider = ({ children }) => {
     if (existingProduct) {
       setCartItems(
         cartItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id ? { ...item, cantidad: item.cantidad + 1 } : item
         )
       );
     } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      setCartItems([...cartItems, { ...product, cantidad: 1 }]);
     }
   };
 
@@ -27,10 +28,10 @@ export const CartProvider = ({ children }) => {
   };
 
   // Función para actualizar la cantidad de un producto en el carrito
-  const updateCartQuantity = (productId, quantity) => {
+  const updateCartQuantity = (productId, cantidad) => {
     setCartItems(
       cartItems.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === productId ? { ...item, cantidad: Number(cantidad) } : item
       )
     );
   };
@@ -40,9 +41,22 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  // Función para calcular el total del carrito
+  const calculateTotal = () => {
+    return cartItems.reduce((sum, item) => {
+      const itemPrice = parseFloat(item.precio);
+      const itemQuantity = parseInt(item.cantidad, 10);
+      // Asegurarse de que tanto el precio como la cantidad sean números válidos
+      if (!isNaN(itemPrice) && !isNaN(itemQuantity)) {
+        return sum + itemPrice * itemQuantity;
+      }
+      return sum;
+    }, 0);
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateCartQuantity, clearCart }}
+      value={{ cartItems, addToCart, removeFromCart, updateCartQuantity, clearCart, calculateTotal }}
     >
       {children}
     </CartContext.Provider>

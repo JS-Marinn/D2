@@ -12,26 +12,19 @@ import About from './About';
 import Login from './Login';
 import Proveedores from './Proveedores';
 import ProtectedRoute from './routes/ProtectedRoute';
+import PedidoList from '../src/components/PedidoList'; 
 import Cart from './Cart';
-import { CartContext } from './CartContext'; // Importa el CartContext
-import { AuthContext } from './context/AuthContext'; // Importa el AuthContext
-import './Index.css'; // Asegúrate de tener este archivo de estilos
+import { CartContext } from './CartContext';
+import { AuthContext } from './context/AuthContext';
+import './Index.css';
 
 const pageVariants = {
-  initial: {
-    opacity: 0,
-  },
-  in: {
-    opacity: 1,
-  },
-  out: {
-    opacity: 0,
-  },
+  initial: { opacity: 0 },
+  in: { opacity: 1 },
+  out: { opacity: 0 },
 };
 
-const pageTransition = {
-  duration: 0.5,
-};
+const pageTransition = { duration: 0.5 };
 
 const AnimatedRoute = ({ element }) => (
   <motion.div
@@ -48,9 +41,9 @@ const AnimatedRoute = ({ element }) => (
 function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
-  const { cartItems } = useContext(CartContext); // Accede a los items del carrito
-  const { user } = useContext(AuthContext); // Accede al estado del usuario
-  const navigate = useNavigate(); // Hook para redirigir
+  const { cartItems } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -63,9 +56,9 @@ function App() {
 
   const handleCartClick = () => {
     if (!user) {
-      navigate('/login'); // Redirige al login si no hay usuario autenticado
+      navigate('/login');
     } else {
-      navigate('/cart'); // Navega al carrito si el usuario está autenticado
+      navigate('/cart');
     }
   };
 
@@ -83,18 +76,27 @@ function App() {
           <Route path="/about" element={<AnimatedRoute element={<About />} />} />
           <Route path="/login" element={<AnimatedRoute element={<Login />} />} />
           <Route path="/cart" element={<AnimatedRoute element={<Cart />} />} />
-          <Route 
-            path="/proveedores" 
+          <Route
+            path="/proveedores"
             element={
               <ProtectedRoute requiredRole="admin">
                 <AnimatedRoute element={<Proveedores />} />
               </ProtectedRoute>
-            } 
+            }
+          />
+          <Route
+            path="/admin/pedidos"
+            element={
+              user && user.role === 'admin' ? (
+                <AnimatedRoute element={<PedidoList />} />
+              ) : (
+                <AnimatedRoute element={<Login />} />
+              )
+            }
           />
         </Routes>
       </AnimatePresence>
 
-      {/* Carrito flotante con borde negro */}
       <div className="floating-cart" onClick={handleCartClick}>
         🛒 <span>Carrito ({cartItems.length})</span>
       </div>

@@ -22,6 +22,7 @@ const NavBar = () => {
         <Link to="/tek">Tecnologia</Link>
         {/* Mostrar la opción de Proveedores solo si el rol es admin */}
         {userRole === 'admin' && <Link to="/proveedores">Proveedores</Link>}
+        {userRole === 'admin' && <Link to="/admin/pedidos">Pedidos</Link>}
       </div>
 
       <div className="navbar-section">
