@@ -1,6 +1,6 @@
 import NavBar from './components/NavBar';
 import FormLogReg from './components/FormLogReg';
-
+import Footer from './components/Footer';
 
 function Login() {
 
@@ -9,7 +9,7 @@ function Login() {
       <div>
       <NavBar />
       <FormLogReg/>
-      
+      <Footer />
     </div>
     </>
   )
