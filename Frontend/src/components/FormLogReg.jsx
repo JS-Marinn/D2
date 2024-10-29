@@ -95,12 +95,6 @@ const RegisterForm = React.forwardRef((props, ref) => {
         <CustomButton>
           Registrarse
         </CustomButton>
-        <div className="fastLogin">
-          <span className="fastLogin-text">O registrate con</span>
-          <div className="login-text">
-            <img className="avatar" src={google} alt="Google login" />
-          </div>
-        </div>
       </div>
     </CustomForm>
   );

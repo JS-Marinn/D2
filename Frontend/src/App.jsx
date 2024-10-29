@@ -12,7 +12,6 @@ import About from './About';
 import Login from './Login';
 import Proveedores from './Proveedores';
 import ProtectedRoute from './routes/ProtectedRoute';
-import PedidoList from '../src/components/PedidoList'; 
 import Cart from './Cart';
 import { CartContext } from './CartContext';
 import { AuthContext } from './context/AuthContext';
@@ -85,14 +84,6 @@ function App() {
             }
           />
           <Route
-            path="/admin/pedidos"
-            element={
-              user && user.role === 'admin' ? (
-                <AnimatedRoute element={<PedidoList />} />
-              ) : (
-                <AnimatedRoute element={<Login />} />
-              )
-            }
           />
         </Routes>
       </AnimatePresence>
