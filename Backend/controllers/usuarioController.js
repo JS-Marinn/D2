@@ -1,7 +1,7 @@
 import Usuario from '../models/Usuario.js';
-import jwt from 'jsonwebtoken'; // Importar el paquete jwt
+import jwt from 'jsonwebtoken';
+import logAdminAction from '../middleware/logger.js';
 
-// Predefinir los administradores quemados en el código
 const adminsPredefinidos = [
   {
     nombre: "Nicolas Urazan Padilla",
@@ -17,7 +17,6 @@ const adminsPredefinidos = [
   }
 ];
 
-// Registrar los administradores predefinidos al iniciar el servidor
 const registrarAdminsPredefinidos = async () => {
   for (const admin of adminsPredefinidos) {
     const existeAdmin = await Usuario.findOne({ email: admin.email });
@@ -29,11 +28,9 @@ const registrarAdminsPredefinidos = async () => {
   }
 };
 
-// Registrar un usuario con rol 'user'
 const registrar = async (req, res) => {
   const { nombre, email, password } = req.body;
 
-  // Validación básica para campos vacíos
   if (!nombre || !email || !password) {
     return res.status(400).json({ msg: "Todos los campos (nombre, email, password) son obligatorios" });
   }
@@ -45,9 +42,13 @@ const registrar = async (req, res) => {
   }
 
   try {
-    // Crear nuevo usuario con el rol de 'user'
     const usuario = new Usuario({ nombre, email, password, role: "user" });
     await usuario.save();
+
+    // Simular autenticación para establecer req.user
+    req.user = { nombre: 'Admin', role: 'admin' }; // Esto es solo para pruebas
+
+    logAdminAction(req, res, () => {}); // Registrar acción del administrador
 
     res.json({ msg: "Usuario registrado correctamente" });
   } catch (error) {
@@ -56,32 +57,33 @@ const registrar = async (req, res) => {
   }
 };
 
-// Autenticar un usuario
 const autenticar = async (req, res) => {
   const { email, password } = req.body;
 
-  // Comprobar si el usuario existe
   const usuario = await Usuario.findOne({ email });
   if (!usuario) {
     return res.status(404).json({ msg: "El usuario no existe" });
   }
 
-  // Comprobar la contraseña
   if (await usuario.comprobarPassword(password)) {
-    console.log("Inicio de sesión exitoso"); // Mensaje por consola al iniciar sesión exitosamente
+    console.log("Inicio de sesión exitoso");
 
-    // Crear un token con el id del usuario y su rol
     const token = jwt.sign(
       { id: usuario._id, role: usuario.role, nombre: usuario.nombre },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
+    // Simular autenticación para establecer req.user
+    req.user = { nombre: usuario.nombre, role: usuario.role }; // Esto es solo para pruebas
+
+    logAdminAction(req, res, () => {}); // Registrar acción del administrador
+
     return res.json({
       msg: `Bienvenido ${usuario.nombre}`,
       token,
-      role: usuario.role, // Devolver el rol del usuario
-      nombre: usuario.nombre, // Devolver el nombre del usuario
+      role: usuario.role,
+      nombre: usuario.nombre,
     });
   } else {
     return res.status(403).json({ msg: "Contraseña incorrecta" });
