@@ -11,6 +11,7 @@ import Legal from './Legal';
 import About from './About';
 import Login from './Login';
 import Proveedores from './Proveedores';
+import Log from './Log';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Cart from './Cart';
 import { CartContext } from './CartContext';
@@ -81,6 +82,14 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AnimatedRoute element={<Proveedores />} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/log"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AnimatedRoute element={<Log />} />
                 </ProtectedRoute>
               }
             />
