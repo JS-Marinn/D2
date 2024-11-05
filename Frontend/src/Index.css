@@ -26,6 +26,7 @@ html, body {
   padding-bottom: 50px; /* Ajusta si necesitas espacio para el footer */
 }
 
+/* navbar */
 
 .navbar {
   display: flex;
@@ -75,6 +76,22 @@ html, body {
   text-shadow: none;
   background-image: none;
 }
+
+/* Estilo para el mensaje de bienvenida */
+.welcome-message {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #0C88D1;
+  padding: 8px 12px;
+  background-color: #f2faff;
+  border: 1px solid #0C88D1;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
 
 /*proveedores*/
 .proveedores{
@@ -294,6 +311,25 @@ button {
 .ui.avatar.image, .ui.avatar.image img, .ui.avatar.image svg, .ui.avatar.images .image, .ui.avatar.images img, .ui.avatar.images svg {
   margin-top: 10px;
 }
+
+
+/* Contenedor principal */
+.form-container {
+  padding-bottom: 200px;
+}
+
+
+
+/* Footer */
+footer {
+  margin-top: auto;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+
 
 /* css cards Products*/
 
@@ -723,3 +759,86 @@ button.cantidad {
   width: 100%;
 }
 
+/* Contenedor principal para la vista de logs */
+/* Estilos generales */
+.logs {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  background-color: #f7f9fc;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Encabezado de la página */
+.logs h2 {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Mensaje de error */
+.logs .ui.message.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  border-radius: 8px;
+  margin: 10px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Tabla de logs */
+.logs .ui.table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 90%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Encabezado de la tabla */
+.logs .ui.table thead th {
+  background-color: #4a90e2;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px;
+}
+
+/* Filas de la tabla */
+.logs .ui.table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.logs .ui.table tbody tr:nth-child(even) {
+  background-color: #f2f7fb;
+}
+
+.logs .ui.table tbody tr:hover {
+  background-color: #e3f2fd;
+}
+
+/* Celdas de la tabla */
+.logs .ui.table tbody td {
+  padding: 12px;
+  text-align: center;
+  color: #555;
+  font-size: 1em;
+}
+
+/* Sombra y redondeo en la tabla */
+.logs .ui.table, .logs .ui.table th, .logs .ui.table td {
+  border: none;
+}
+
+/* Fecha */
+.logs .ui.table td:last-child {
+  font-size: 0.9em;
+  color: #888;
+}
