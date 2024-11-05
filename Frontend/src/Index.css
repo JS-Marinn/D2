@@ -1,3 +1,32 @@
+html, body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-container-modern {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding-bottom: 50px; /* Ajusta si necesitas espacio para el footer */
+}
+
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -52,9 +81,33 @@
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 20px;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 50px; /* Ajuste para dejar espacio al footer */
 }
 
+.proveedores > .content {
+  flex: 1; /* Ocupa el espacio restante para mantener el footer al fondo */
+}
+
+.proveedores .ui.input input {
+  width: 400px; /* Cambia el tamaño según lo necesites */
+}
+
+
 /* Footer.css */
+
+/* Footer fijo al fondo */
+footer {
+  width: 100%;
+  height: 50px; /* Ajusta según el tamaño de tu footer */
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Cambia según la estructura de tu layout */
+}
 .ui.inverted.list .list>a.item>.icon, .ui.inverted.list>a.item>.icon {
   color: white;
 }
@@ -442,13 +495,8 @@ button {
 
 /* carrito */
 
-.ui.input {
-  position: relative;
-  font-weight: 400;
-  font-style: normal;
-  display: inline-flex;
-  color: rgba(0, 0, 0, .87);
-  max-width: 54px !important;
+.custom-input {
+  width: 60px; /* Ajusta el tamaño según sea necesario */
 }
 
 .ui.labeled.icon.button, .ui.labeled.icon.buttons .button {

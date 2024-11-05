@@ -65,27 +65,27 @@ function App() {
     <>
       {loading && <LoadingScreen />}
       <AnimatePresence mode="wait" onExitComplete={() => setLoading(false)}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<AnimatedRoute element={<Index />} />} />
-          <Route path="/pharmacy" element={<AnimatedRoute element={<Pharmacy />} />} />
-          <Route path="/home" element={<AnimatedRoute element={<Home />} />} />
-          <Route path="/market" element={<AnimatedRoute element={<Market />} />} />
-          <Route path="/tek" element={<AnimatedRoute element={<Tek />} />} />
-          <Route path="/legal" element={<AnimatedRoute element={<Legal />} />} />
-          <Route path="/about" element={<AnimatedRoute element={<About />} />} />
-          <Route path="/login" element={<AnimatedRoute element={<Login />} />} />
-          <Route path="/cart" element={<AnimatedRoute element={<Cart />} />} />
-          <Route
-            path="/proveedores"
-            element={
-              <ProtectedRoute requiredRole="admin">
-                <AnimatedRoute element={<Proveedores />} />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-          />
-        </Routes>
+        <div className="content">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<AnimatedRoute element={<Index />} />} />
+            <Route path="/pharmacy" element={<AnimatedRoute element={<Pharmacy />} />} />
+            <Route path="/home" element={<AnimatedRoute element={<Home />} />} />
+            <Route path="/market" element={<AnimatedRoute element={<Market />} />} />
+            <Route path="/tek" element={<AnimatedRoute element={<Tek />} />} />
+            <Route path="/legal" element={<AnimatedRoute element={<Legal />} />} />
+            <Route path="/about" element={<AnimatedRoute element={<About />} />} />
+            <Route path="/login" element={<AnimatedRoute element={<Login />} />} />
+            <Route path="/cart" element={<AnimatedRoute element={<Cart />} />} />
+            <Route
+              path="/proveedores"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AnimatedRoute element={<Proveedores />} />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
       </AnimatePresence>
 
       <div className="floating-cart" onClick={handleCartClick}>

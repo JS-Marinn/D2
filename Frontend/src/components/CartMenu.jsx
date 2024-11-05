@@ -2,12 +2,38 @@ import React, { useContext } from 'react';
 import { CartContext } from '../CartContext';
 import { Button, Image, Input, Icon, Container, Grid, Segment, Header } from 'semantic-ui-react';
 import '../Cart.css'; // Archivo CSS personalizado
+import '../Index.css';
 
 function Cart() {
   const { cartItems, removeFromCart, updateCartQuantity, clearCart } = useContext(CartContext);
 
   // Calcular el total
   const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  // Función para manejar el pedido
+  const handleOrder = () => {
+    const confirmation = window.confirm('¿Confirmas que deseas realizar el pedido?');
+    if (confirmation) {
+      clearCart(); // Vaciar el carrito
+      window.location.reload(); // Recargar la página
+    }
+  };
+
+  // Función para manejar la eliminación de un producto
+  const handleRemoveFromCart = (productId) => {
+    const confirmation = window.confirm('¿Estás seguro de que deseas eliminar este producto del carrito?');
+    if (confirmation) {
+      removeFromCart(productId); // Eliminar el producto
+    }
+  };
+
+  // Función para manejar el vaciado del carrito
+  const handleClearCart = () => {
+    const confirmation = window.confirm('¿Estás seguro de que deseas vaciar el carrito?');
+    if (confirmation) {
+      clearCart(); // Vaciar el carrito
+    }
+  };
 
   return (
     <Container className="cart-container-modern">
@@ -41,6 +67,7 @@ function Cart() {
                       <Header as="h3">{item.name}</Header>
                       <p className="item-price-modern">Precio: ${item.price}</p>
                       <Input
+                        className="custom-input"
                         type="number"
                         value={item.quantity}
                         min="1"
@@ -52,7 +79,7 @@ function Cart() {
                     <Grid.Column width={4} textAlign="right">
                       <Button
                         color="red"
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => handleRemoveFromCart(item.id)} // Usar la función de manejo de eliminación
                         icon
                         labelPosition="left"
                         className="remove-item-button-modern"
@@ -84,7 +111,7 @@ function Cart() {
                   icon
                   labelPosition="left"
                   fluid
-                  onClick={() => alert('Realizando pedido...')}
+                  onClick={handleOrder} // Usar la función de manejo de pedido
                 >
                   <Icon name="check" />
                   Realizar Pedido
@@ -95,7 +122,7 @@ function Cart() {
                   icon
                   labelPosition="left"
                   fluid
-                  onClick={clearCart}
+                  onClick={handleClearCart} // Usar la función de manejo para vaciar el carrito
                   style={{ marginTop: '10px' }}
                 >
                   <Icon name="trash alternate" />
@@ -112,7 +139,7 @@ function Cart() {
 
 // Función para redirigir aleatoriamente a una de las rutas
 function redirectRandomly() {
-  const routes = ['/', '/pharmacy', '/home', '/market', '/tek'];
+  const routes = ['/pharmacy', '/home', '/market', '/tek'];
   const randomRoute = routes[Math.floor(Math.random() * routes.length)];
   window.location.href = randomRoute;
 }

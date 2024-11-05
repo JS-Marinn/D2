@@ -3,7 +3,8 @@ import Footer from './components/Footer';
 import CartMenu from './components/CartMenu';
 import './Cart.css';
 
-function About() {
+
+function Cart() {
 
   return (
     <>
@@ -16,4 +17,4 @@ function About() {
   )
 }
 
-export default About
+export default Cart
