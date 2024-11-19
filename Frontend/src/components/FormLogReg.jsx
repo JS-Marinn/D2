@@ -1,7 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import Logo from "../assets/img/Logo.jpeg";
-import google from "../assets/img/google.png";
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,28 +12,38 @@ const CustomForm = React.forwardRef((props, ref) => (
   <form ref={ref} {...props} className="custom-form">{props.children}</form>
 ));
 
+const validateEmail = (email) => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+};
+
+const validatePassword = (password) => password.length >= 6;
+
 const LoginForm = React.forwardRef((props, ref) => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    try {
-      const response = await axios.post('http://localhost:4000/api/usuarios/login', 
-        { email, password }, 
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      login(response.data.token, response.data.role, response.data.nombre);
-      navigate('/home'); // Redirigir a home
-    } catch (error) {
-      console.error(error);
-      if (error.response && error.response.data && error.response.data.msg) {
-        alert(error.response.data.msg); // Mostrar mensaje de error al usuario
-      } else {
-        alert('Error en el inicio de sesión, por favor intenta nuevamente.');
+    let validationErrors = {};
+    if (!validateEmail(email)) validationErrors.email = 'Correo electrónico no válido.';
+    if (!validatePassword(password)) validationErrors.password = 'La contraseña debe tener al menos 6 caracteres.';
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        const response = await axios.post('http://localhost:4000/api/usuarios/login', 
+          { email, password }, 
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        login(response.data.token, response.data.role, response.data.nombre);
+        navigate('/home'); // Redirigir a home
+      } catch (error) {
+        alert(error.response?.data?.msg || 'Error en el inicio de sesión.');
       }
     }
   };
@@ -43,10 +52,25 @@ const LoginForm = React.forwardRef((props, ref) => {
     <CustomForm ref={ref} onSubmit={handleSubmit}>
       <div className="login-segment">
         <div className="login-input">
-          <input type="email" placeholder="E-mail" id='email' autoComplete="current-email" required />
+          <input 
+            type="email" 
+            placeholder="E-mail" 
+            id='email' 
+            autoComplete="current-email" 
+            required 
+          />
+          {errors.email && <span className="error-message">{errors.email}</span>}
         </div>
         <div className="login-input">
-          <input type="password" placeholder="Contraseña" id='password' autoComplete="current-password" required />
+          <input 
+            type="password" 
+            placeholder="Contraseña" 
+            id='password' 
+            autoComplete="current-password" 
+            required 
+            minLength="6"
+          />
+          {errors.password && <span className="error-message">{errors.password}</span>}
         </div>
         <CustomButton>
           Iniciar Sesión
@@ -57,25 +81,29 @@ const LoginForm = React.forwardRef((props, ref) => {
 });
 
 const RegisterForm = React.forwardRef((props, ref) => {
+  const [errors, setErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.emailRegister.value;
-    const nombre = e.target.nombre.value;
+    const nombre = e.target.nombre.value.trim();
     const password = e.target.password.value;
 
-    try {
-      const response = await axios.post('http://localhost:4000/api/usuarios', 
-        { email, nombre, password }, 
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      console.log(response.data);
-      alert(response.data.msg); // Mostrar mensaje de éxito al usuario
-    } catch (error) {
-      console.error(error);
-      if (error.response && error.response.data && error.response.data.msg) {
-        alert(error.response.data.msg); // Mostrar mensaje de error al usuario
-      } else {
-        alert('Error al registrar, por favor intenta nuevamente.');
+    let validationErrors = {};
+    if (!validateEmail(email)) validationErrors.email = 'Correo electrónico no válido.';
+    if (!nombre) validationErrors.nombre = 'El nombre no puede estar vacío.';
+    if (!validatePassword(password)) validationErrors.password = 'La contraseña debe tener al menos 6 caracteres.';
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        const response = await axios.post('http://localhost:4000/api/usuarios', 
+          { email, nombre, password }, 
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        alert(response.data.msg);
+      } catch (error) {
+        alert(error.response?.data?.msg || 'Error al registrar.');
       }
     }
   };
@@ -84,13 +112,34 @@ const RegisterForm = React.forwardRef((props, ref) => {
     <CustomForm ref={ref} onSubmit={handleSubmit}>
       <div className="register-segment">
         <div className="register-input">
-          <input type="email" placeholder="E-mail" id='emailRegister' required />
+          <input 
+            type="email" 
+            placeholder="E-mail" 
+            id='emailRegister' 
+            required 
+          />
+          {errors.email && <span className="error-message">{errors.email}</span>}
         </div>
         <div className="register-input">
-          <input type="text" placeholder="Nombre Completo" id='nombre' autoComplete="Full-name" required />
+          <input 
+            type="text" 
+            placeholder="Nombre Completo" 
+            id='nombre' 
+            autoComplete="name" 
+            required 
+          />
+          {errors.nombre && <span className="error-message">{errors.nombre}</span>}
         </div>
         <div className="register-input">
-          <input type="password" placeholder="Contraseña" id='password' autoComplete="new-password" required />
+          <input 
+            type="password" 
+            placeholder="Contraseña" 
+            id='password' 
+            autoComplete="new-password" 
+            required 
+            minLength="6"
+          />
+          {errors.password && <span className="error-message">{errors.password}</span>}
         </div>
         <CustomButton>
           Registrarse
@@ -120,7 +169,7 @@ const FormLogReg = () => {
             </div>
             <LoginForm ref={loginFormRef} />
             <div className="message">
-              ¿Eres nuevo? <a href='#' onClick={handleToggleForm}>Empezemos</a>
+              ¿Eres nuevo? <a href='#' onClick={handleToggleForm}>Empecemos</a>
             </div>
           </div>
         ) : (
