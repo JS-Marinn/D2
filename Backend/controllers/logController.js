@@ -9,3 +9,4 @@ export const obtenerLogs = async (req, res) => {
     res.status(500).json({ msg: "Error al obtener los logs" });
   }
 };
+// Esto es una prueba
